@@ -1,0 +1,6 @@
+{
+  "name": "RE Centre for Exploratory Research",
+  "description": "Kumaraguru's elite digital research ecosystem linking fellowships, material fabrications, open-source data archives, and AI-powered pathfinders.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
