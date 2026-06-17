@@ -21,7 +21,7 @@ import AboutPage from './pages/AboutPage';
 
 import { ArrowUpRight, Award, Library, Users, Building, Activity, Calendar, Newspaper, ArrowRight, ArrowLeft, Star, Sparkles, X, Play, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-
+import heroImage from './assets/images/hero_science_curiosity_1781713989413.jpg';
 const RiverDeltaBackground = () => (
   <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-35 bg-gradient-to-b from-[#0e2c1e]/98 to-[#133c2a]">
     <svg className="w-full h-full" width="100%" height="100%" viewBox="0 0 1000 500" preserveAspectRatio="none">
