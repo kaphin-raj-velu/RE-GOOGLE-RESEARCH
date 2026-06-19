@@ -287,8 +287,10 @@ export default function App() {
   className="relative overflow-hidden w-full h-[calc(100vh-64px)] md:h-[calc(100vh-72px)] min-h-[550px] sm:min-h-[650px] md:min-h-[750px] lg:min-h-[850px] border-b border-[#DADCE0] bg-white bg-contain bg-center bg-no-repeat flex items-center justify-center"
   backgroundImage: `url(${heroImage})`
 }}
-          id="home-hero"
-        >
+        {/* <section
+  id="home-hero"
+  className="relative w-full h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center">
+        
           {/* Subtle bottom padding container to position standard action buttons elegantly */}
              <div className="absolute inset-0 flex justify-center pt-32 z-10">
              <div className="max-w-4xl mx-auto px-6 -mt-96 border-4 border-red-500">
@@ -311,7 +313,43 @@ export default function App() {
 
             </div>
           </div>
-        </section>
+        </section> */}
+      <section
+  id="home-hero"
+  className="relative overflow-hidden w-full h-screen min-h-[700px] bg-cover bg-center bg-no-repeat border-b border-[#DADCE0]"
+  style={{
+    backgroundImage: `url(${heroImage})`
+  }}
+>
+
+  {/* Dark Overlay */}
+  <div className="absolute inset-0 bg-black/20" />
+
+  {/* Buttons */}
+  <div className="absolute top-24 left-1/2 -translate-x-1/2 z-10">
+
+    <div className="flex flex-wrap items-center justify-center gap-4">
+
+      <button
+        onClick={() => navigateTo('#/research-areas')}
+        className="bg-[#202124] hover:bg-black text-white font-sans text-[15px] font-bold px-7 py-4 rounded-full transition-all hover:scale-[1.02] flex items-center space-x-2.5 cursor-pointer shadow-lg active:scale-95 h-[48px]"
+      >
+        <span>Explore Research Circles</span>
+        <ArrowRight className="h-4 w-4" />
+      </button>
+
+      <button
+        onClick={() => navigateTo('#/projects')}
+        className="bg-white hover:bg-gray-50 text-[#202124] border border-[#DADCE0] font-sans text-[15px] font-bold px-7 py-4 rounded-full transition-all hover:scale-[1.02] cursor-pointer active:scale-95 h-[48px] shadow-lg"
+      >
+        Browse Projects
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
 
         {/* ================= SCHOLAR TESTIMONIALS ================= */}
         <section className="bg-[#F8F9FA] py-20 lg:py-24 border-b border-[#DADCE0] relative overflow-hidden font-sans">
