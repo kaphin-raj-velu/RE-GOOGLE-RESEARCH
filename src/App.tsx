@@ -290,11 +290,10 @@ export default function App() {
           id="home-hero"
         >
           {/* Subtle bottom padding container to position standard action buttons elegantly */}
-             <div className="w-full relative z-10 text-center">
-            <div className="max-w-4xl mx-auto px-6">
+             <div className="absolute inset-0 flex items-center justify-center -translate-y-24 z-10">
+  <div className="max-w-4xl mx-auto px-6">
 
-              {/* Centered actions containing the CTA buttons beautifully positioned */}
-              <div className="flex flex-wrap items-center justify-center gap-4">
+    <div className="flex flex-wrap items-center justify-center gap-4">
                 <button
                   onClick={() => navigateTo('#/research-areas')}
                   className="bg-[#202124] hover:bg-black text-white font-sans text-[15px] font-bold px-7 py-4 rounded-full transition-all hover:scale-[1.02] flex items-center space-x-2.5 cursor-pointer shadow-lg active:scale-95 h-[48px] select-none"
