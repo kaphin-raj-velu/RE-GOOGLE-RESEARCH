@@ -290,8 +290,8 @@ export default function App() {
           id="home-hero"
         >
           {/* Subtle bottom padding container to position standard action buttons elegantly */}
-             <div className="absolute inset-0 flex items-center justify-center -translate-y-24 z-10">
-  <div className="max-w-4xl mx-auto px-6">
+             <div className="absolute inset-0 flex justify-center pt-32 z-10">
+             <div className="max-w-4xl mx-auto px-6 -mt-96 border-4 border-red-500">
 
     <div className="flex flex-wrap items-center justify-center gap-4">
                 <button
