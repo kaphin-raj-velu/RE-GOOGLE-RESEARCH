@@ -5,7 +5,7 @@ import ResourceCard from './components/ResourceCard';
 import EcosystemBlock from './components/EcosystemBlock';
 import Spotlight from './components/Spotlight';
 import SearchOverlay from './components/SearchOverlay';
-
+import heroImage from './assets/images/hero_science_curiosity_1781713989413.jpg';
 // Detailed Subpages
 import ResearchAreasPage from './pages/ResearchAreasPage';
 import ResearchCircleDetailPage from './pages/ResearchCircleDetailPage';
@@ -284,7 +284,9 @@ export default function App() {
         {/* ================= SECTION 1: HERO (CENTERED HERO CONTENT) ================= */}
         <section
           className="relative overflow-hidden w-full h-[calc(100vh-64px)] md:h-[calc(100vh-72px)] min-h-[550px] sm:min-h-[650px] md:min-h-[750px] lg:min-h-[850px] border-b border-[#DADCE0] bg-white bg-contain bg-center bg-no-repeat flex flex-col justify-end"
-          style={{ backgroundImage: `url('/src/assets/images/hero_science_curiosity_1781713989413.jpg')` }}
+          style={{
+  backgroundImage: `url(${heroImage})`
+}}
           id="home-hero"
         >
           {/* Subtle bottom padding container to position standard action buttons elegantly */}
