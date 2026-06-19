@@ -10,23 +10,11 @@ interface HeaderProps {
 export default function Header({ currentHash, onNavigate, onSearchOpen }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<'research' | 'programs' | 'about' | null>(null);
-  const [institutionDropdownOpen, setInstitutionDropdownOpen] = useState(false);
   const [searchExpanded, setSearchExpanded] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
-
-  // Close dropdowns on click outside
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setInstitutionDropdownOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   // Autofocus search input when expanded
   useEffect(() => {
@@ -94,16 +82,16 @@ export default function Header({ currentHash, onNavigate, onSearchOpen }: Header
         {/* ================= NORMAL LAYOUT: LEFT SIDE WORDMARK & NAV ================= */}
         {!searchExpanded ? (
           <>
-            {/* Logo Wordmark with Institution Dropdown Chevron */}
-            <div className="flex items-center space-x-2">
-              <div 
-                onClick={() => handleNavClick('#/')}
-                className="flex cursor-pointer items-center space-x-3 group"
-                id="header-logo-container"
-              >
-                {/* Custom SVG Research Logo matching Google schema */}
+            {/* Logo Wordmark - Rendered as Full High-Fidelity horizontal logo branding */}
+            <div 
+              onClick={() => handleNavClick('#/')}
+              className="flex cursor-pointer items-center space-x-3 group select-none"
+              id="header-logo-container"
+            >
+              {/* Custom SVG Research Logo Emblem matching Google schema */}
+              <div className="flex items-center space-x-2">
                 <svg 
-                  className="h-[36px] w-[36px] flex-shrink-0 select-none scale-105 transition-transform duration-300 group-hover:scale-110" 
+                  className="h-[36px] w-[36px] flex-shrink-0 select-none transition-transform duration-300 group-hover:scale-105" 
                   viewBox="0 0 240 240" 
                   fill="none" 
                   xmlns="http://www.w3.org/2000/svg"
@@ -116,34 +104,20 @@ export default function Header({ currentHash, onNavigate, onSearchOpen }: Header
                   <circle cx="180" cy="125" r="20" fill="white" /><circle cx="180" cy="125" r="10" fill="#1C2E4A" />
                   <circle cx="110" cy="85" r="20" fill="white" /><circle cx="110" cy="85" r="10" fill="#1C2E4A" />
                 </svg>
-                <div className="h-6 w-[1px] bg-[#DADCE0]"></div>
-                <span className="font-display text-2xl font-extrabold tracking-tight text-[#202124] select-none pl-1 transition-transform duration-300 group-hover:scale-[1.03]">
-                  RÉ
+                <span className="font-sans text-[28px] font-black tracking-tight text-[#1C2E4A] lowercase leading-none select-none transition-transform duration-300 group-hover:scale-[1.03]">
+                  re
                 </span>
               </div>
-
-              {/* Institutions Down Chevron Dropdown trigger */}
-              <div className="relative">
-                <button 
-                  onClick={() => setInstitutionDropdownOpen(!institutionDropdownOpen)}
-                  className="p-1 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-all focus:outline-none cursor-pointer"
-                  title="Kumaraguru Institutions Network"
-                >
-                  <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${institutionDropdownOpen ? 'rotate-180' : ''}`} />
-                </button>
-
-                {/* Dropdown Items list */}
-                {institutionDropdownOpen && (
-                  <div className="absolute left-0 mt-3 w-64 rounded-2xl bg-white border border-[#DADCE0] shadow-xl py-3 z-50 animate-fadeIn font-sans">
-                    <span className="block text-[11px] font-bold text-gray-400 uppercase tracking-widest px-4 pb-2 border-b border-gray-100 mb-2">Kumaraguru Institutions</span>
-                    <a href="https://www.kct.ac.in" target="_blank" rel="noreferrer" className="block px-4 py-2 hover:bg-gray-50 text-sm font-semibold text-gray-800 transition-colors">Kumaraguru College of Tech (KCT)</a>
-                    <a href="https://kclas.ac.in" target="_blank" rel="noreferrer" className="block px-4 py-2 hover:bg-gray-50 text-sm font-semibold text-gray-800 transition-colors">College of Liberal Arts (KCLAS)</a>
-                    <a href="http://kia.ac.in" target="_blank" rel="noreferrer" className="block px-4 py-2 hover:bg-gray-50 text-sm font-semibold text-gray-800 transition-colors">Institute of Agriculture (KIA)</a>
-                    <div className="border-t border-gray-100 mt-2 pt-2">
-                      <span className="block text-[10px] text-gray-400 font-mono px-4">Centre for Exploratory Research</span>
-                    </div>
-                  </div>
-                )}
+              
+              <div className="hidden sm:block h-6 w-[1px] bg-[#DADCE0]"></div>
+              
+              <div className="hidden sm:flex flex-col text-left justify-center select-none leading-none">
+                <span className="font-sans text-[8.5px] font-bold tracking-[0.12em] text-[#5F6368] uppercase">
+                  KCT&apos;S PLATFORM FOR
+                </span>
+                <span className="font-sans text-[9.5px] font-black tracking-widest text-[#1C2E4A] uppercase mt-0.5">
+                  RESEARCH &amp; EXPLORATION
+                </span>
               </div>
             </div>
 
