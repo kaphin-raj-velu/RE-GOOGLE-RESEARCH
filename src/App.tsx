@@ -283,14 +283,14 @@ export default function App() {
 
         {/* ================= SECTION 1: HERO (CENTERED HERO CONTENT) ================= */}
         <section
-          className="relative overflow-hidden w-full h-[calc(100vh-64px)] md:h-[calc(100vh-72px)] min-h-[550px] sm:min-h-[650px] md:min-h-[750px] lg:min-h-[850px] border-b border-[#DADCE0] bg-white bg-contain bg-center bg-no-repeat flex flex-col justify-end"
-          style={{
+          <section
+  className="relative overflow-hidden w-full h-[calc(100vh-64px)] md:h-[calc(100vh-72px)] min-h-[550px] sm:min-h-[650px] md:min-h-[750px] lg:min-h-[850px] border-b border-[#DADCE0] bg-white bg-contain bg-center bg-no-repeat flex items-center justify-center"
   backgroundImage: `url(${heroImage})`
 }}
           id="home-hero"
         >
           {/* Subtle bottom padding container to position standard action buttons elegantly */}
-          <div className="w-full relative z-10 text-center pb-24 sm:pb-28 md:pb-32 lg:pb-40">
+             <div className="w-full relative z-10 text-center">
             <div className="max-w-4xl mx-auto px-6">
 
               {/* Centered actions containing the CTA buttons beautifully positioned */}
