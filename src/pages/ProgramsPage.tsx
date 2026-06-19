@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { 
   Award, 
   Sparkles, 
@@ -6,12 +6,10 @@ import {
   Users, 
   BookOpen, 
   ArrowRight, 
-  Check, 
-  Compass, 
-  Layers, 
-  Briefcase 
+  Check 
 } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface ProgramsPageProps {
   onNavigate: (hash: string) => void;
@@ -28,49 +26,52 @@ export default function ProgramsPage({ onNavigate, selectedProgramId }: Programs
     }
   };
 
-  // Listen to URL hash or prop updates and auto scroll
+  const [selectedProgId, setSelectedProgId] = React.useState('krest');
+
+  // Listen to URL hash or prop updates and auto choose the selected program
   useEffect(() => {
     if (selectedProgramId) {
-      // Delay slightly to allow full mounting
-      const timer = setTimeout(() => {
-        scrollToSection(selectedProgramId);
-      }, 150);
-      return () => clearTimeout(timer);
+      setSelectedProgId(selectedProgramId);
     }
   }, [selectedProgramId]);
 
-  return (
-    <div className="w-full font-sans text-gray-900 bg-[#FAFAFA]" id="programs-page-root">
-      {/* Editorial Page Title Header - Images hidden, Left-aligned for high editorial feel */}
-      <PageHeader 
-        category="RÉ ACADEMIC PATHWAYS"
-        title="Programs & Pathways"
-        description="Every researcher starts somewhere. Research is not a single moment of discovery. It is a journey shaped by curiosity, mentorship, exploration, and practice."
-        accentColor="green"
-        gradientTheme="blue"
-        center={false}
-        hideImages={true}
-      />
+  const programsList = [
+    { id: 'krest', title: 'KREST' },
+    { id: 'reflect', title: 'REFLECT' },
+    { id: 'krip', title: 'KRIP' },
+    { id: 'circles', title: 'Research Circles' },
+    { id: 'urop', title: 'UROP' },
+  ];
 
-      <div className="mx-auto max-w-[1200px] px-6 lg:px-16 py-12">
-        
-        {/* ================= SECTION 1: PROGRAMS OVERVIEW & SUMMARY ================= */}
-        <section id="programs-intro" className="mb-20">
-          <div className="p-8 md:p-12 bg-white border border-[#DADCE0] rounded-2xl shadow-sm transition-all duration-300">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-[#1A73E8] mb-4">At Ré</h3>
-            <p className="text-xl md:text-2xl font-light leading-relaxed text-gray-700">
-              Our programs are designed to help students engage with research at different stages of their academic journey—whether they are taking their first step into inquiry or contributing to advanced investigations. Each program serves a distinct purpose, but together they create a pathway that transforms curiosity into capability.
-            </p>
-          </div>
-        </section>
+  const getProgramIcon = (id: string, classNameString: string) => {
+    switch (id) {
+      case 'krest':
+        return <Award className={`${classNameString} text-[#34A853]`} />;
+      case 'reflect':
+        return <Sparkles className={`${classNameString} text-[#FBBC05]`} />;
+      case 'krip':
+        return <GraduationCap className={`${classNameString} text-[#4285F4]`} />;
+      case 'circles':
+        return <Users className={`${classNameString} text-[#EA4335]`} />;
+      case 'urop':
+        return <BookOpen className={`${classNameString} text-gray-500`} />;
+      default:
+        return null;
+    }
+  };
 
-        {/* ================= SECTION 3: RECT-STRUCTURED METHODOLOGY DETAILS ================= */}
-        <section className="space-y-16" id="structured-programs-details">
-          
-          {/* Card 1: KREST */}
-          <div 
+  const renderSelectedProgramContent = () => {
+    switch (selectedProgId) {
+      case 'krest':
+        return (
+          <motion.div 
+            key="krest"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
             id="krest" 
-            className="p-8 md:p-12 bg-white border border-[#DADCE0] rounded-2xl shadow-sm hover:shadow-md transition-all scroll-mt-24"
+            className="p-8 md:p-12 bg-white border border-[#DADCE0] rounded-2xl shadow-sm hover:shadow-md transition-all text-left"
           >
             <div className="flex items-center space-x-3.5 mb-6">
               <div className="p-3 bg-[#34A853]/15 text-[#34A853] rounded-xl">
@@ -112,17 +113,23 @@ export default function ProgramsPage({ onNavigate, selectedProgramId }: Programs
 
             <button 
               onClick={() => onNavigate('#/careers')}
-              className="inline-flex items-center text-sm font-bold text-[#1A73E8] hover:text-blue-700 transition-colors"
+              className="inline-flex items-center text-sm font-bold text-[#1A73E8] hover:text-blue-700 transition-colors cursor-pointer"
             >
               <span>Explore KREST opportunities</span>
               <ArrowRight className="ml-1.5 h-4 w-4" />
             </button>
-          </div>
-
-          {/* Card 2: REFLECT */}
-          <div 
+          </motion.div>
+        );
+      case 'reflect':
+        return (
+          <motion.div 
+            key="reflect"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
             id="reflect" 
-            className="p-8 md:p-12 bg-white border border-[#DADCE0] rounded-2xl shadow-sm hover:shadow-md transition-all scroll-mt-24"
+            className="p-8 md:p-12 bg-white border border-[#DADCE0] rounded-2xl shadow-sm hover:shadow-md transition-all text-left"
           >
             <div className="flex items-center space-x-3.5 mb-6">
               <div className="p-3 bg-[#FBBC05]/15 text-[#FBBC05] rounded-xl">
@@ -161,17 +168,23 @@ export default function ProgramsPage({ onNavigate, selectedProgramId }: Programs
 
             <button 
               onClick={() => scrollToSection('programs-intro')}
-              className="inline-flex items-center text-sm font-bold text-[#1A73E8] hover:text-blue-700 transition-colors"
+              className="inline-flex items-center text-sm font-bold text-[#1A73E8] hover:text-blue-700 transition-colors cursor-pointer"
             >
               <span>Learn More</span>
               <ArrowRight className="ml-1.5 h-4 w-4" />
             </button>
-          </div>
-
-          {/* Card 3: KRIP */}
-          <div 
+          </motion.div>
+        );
+      case 'krip':
+        return (
+          <motion.div 
+            key="krip"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
             id="krip" 
-            className="p-8 md:p-12 bg-white border border-[#DADCE0] rounded-2xl shadow-sm hover:shadow-md transition-all scroll-mt-24"
+            className="p-8 md:p-12 bg-white border border-[#DADCE0] rounded-2xl shadow-sm hover:shadow-md transition-all text-left"
           >
             <div className="flex items-center space-x-3.5 mb-6">
               <div className="p-3 bg-[#4285F4]/15 text-[#4285F4] rounded-xl">
@@ -210,17 +223,23 @@ export default function ProgramsPage({ onNavigate, selectedProgramId }: Programs
 
             <button 
               onClick={() => onNavigate('#/careers')}
-              className="inline-flex items-center text-sm font-bold text-[#1A73E8] hover:text-blue-700 transition-colors"
+              className="inline-flex items-center text-sm font-bold text-[#1A73E8] hover:text-blue-700 transition-colors cursor-pointer"
             >
               <span>Explore KRIP Positions</span>
               <ArrowRight className="ml-1.5 h-4 w-4" />
             </button>
-          </div>
-
-          {/* Card 4: Research Circles */}
-          <div 
+          </motion.div>
+        );
+      case 'circles':
+        return (
+          <motion.div 
+            key="circles"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
             id="circles" 
-            className="p-8 md:p-12 bg-white border border-[#DADCE0] rounded-2xl shadow-sm hover:shadow-md transition-all scroll-mt-24"
+            className="p-8 md:p-12 bg-white border border-[#DADCE0] rounded-2xl shadow-sm hover:shadow-md transition-all text-left"
           >
             <div className="flex items-center space-x-3.5 mb-6">
               <div className="p-3 bg-[#EA4335]/15 text-[#EA4335] rounded-xl">
@@ -260,17 +279,23 @@ export default function ProgramsPage({ onNavigate, selectedProgramId }: Programs
 
             <button 
               onClick={() => onNavigate('#/research-areas')}
-              className="inline-flex items-center text-sm font-bold text-[#1A73E8] hover:text-blue-700 transition-colors"
+              className="inline-flex items-center text-sm font-bold text-[#1A73E8] hover:text-blue-700 transition-colors cursor-pointer"
             >
               <span>Explore Research Circles</span>
               <ArrowRight className="ml-1.5 h-4 w-4" />
             </button>
-          </div>
-
-          {/* Card 5: UROP */}
-          <div 
+          </motion.div>
+        );
+      case 'urop':
+        return (
+          <motion.div 
+            key="urop"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
             id="urop" 
-            className="p-8 md:p-12 bg-white border border-[#DADCE0] rounded-2xl shadow-sm hover:shadow-md transition-all scroll-mt-24"
+            className="p-8 md:p-12 bg-white border border-[#DADCE0] rounded-2xl shadow-sm hover:shadow-md transition-all text-left"
           >
             <div className="flex items-center space-x-3.5 mb-6">
               <div className="p-3 bg-gray-100 text-gray-700 rounded-xl">
@@ -309,26 +334,118 @@ export default function ProgramsPage({ onNavigate, selectedProgramId }: Programs
 
             <button 
               onClick={() => onNavigate('#/careers')}
-              className="inline-flex items-center text-sm font-bold text-[#1A73E8] hover:text-blue-700 transition-colors"
+              className="inline-flex items-center text-sm font-bold text-[#1A73E8] hover:text-blue-700 transition-colors cursor-pointer"
             >
               <span>Discover Opportunities</span>
               <ArrowRight className="ml-1.5 h-4 w-4" />
             </button>
+          </motion.div>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="w-full font-sans text-gray-900 bg-[#FAFAFA]" id="programs-page-root">
+      {/* Editorial Page Title Header - Images hidden, Left-aligned for high editorial feel */}
+      <PageHeader 
+        category="RÉ ACADEMIC PATHWAYS"
+        title="Programs & Pathways"
+        description="Every researcher starts somewhere. Research is not a single moment of discovery. It is a journey shaped by curiosity, mentorship, exploration, and practice."
+        accentColor="green"
+        gradientTheme="blue"
+        center={false}
+        hideImages={true}
+      />
+
+      <div className="mx-auto max-w-[1240px] px-6 lg:px-16 py-12">
+        
+        {/* ================= SECTION 1: PROGRAMS OVERVIEW & SUMMARY ================= */}
+        <section id="programs-intro" className="mb-12">
+          <div className="p-8 md:p-12 bg-white border border-[#DADCE0] rounded-2xl shadow-sm transition-all duration-300">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-[#1A73E8] mb-4 text-left">At Ré</h3>
+            <p className="text-xl md:text-2xl font-light leading-relaxed text-gray-700 text-left">
+              Our programs are designed to help students engage with research at different stages of their academic journey—whether they are taking their first step into inquiry or contributing to advanced investigations. Each program serves a distinct purpose, but together they create a pathway that transforms curiosity into capability.
+            </p>
+          </div>
+        </section>
+
+        {/* ================= SECTION 3: RECT-STRUCTURED METHODOLOGY DETAILS ================= */}
+        <div className="lg:hidden mb-8 border-b border-gray-100 pb-4 overflow-x-auto scrollbar-none flex gap-2.5" id="programs-mobile-tabs">
+          {programsList.map((prog) => {
+            const isSelected = prog.id === selectedProgId;
+            return (
+              <button
+                key={prog.id}
+                onClick={() => setSelectedProgId(prog.id)}
+                className={`flex items-center space-x-2 px-4 py-2.5 rounded-full text-xs font-bold tracking-wide transition-all duration-200 shrink-0 border cursor-pointer ${
+                  isSelected
+                    ? "bg-gray-900 border-gray-900 text-white shadow-xs"
+                    : "bg-white border-gray-200 text-gray-600 hover:text-gray-950 hover:bg-gray-50"
+                }`}
+              >
+                {getProgramIcon(prog.id, "h-4 w-4")}
+                <span>{prog.title}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start" id="programs-layout-grid">
+          
+          {/* Left Sticky Sidebar on Desktop */}
+          <div className="hidden lg:block lg:col-span-3 sticky top-28 self-start space-y-4" id="programs-desktop-sidebar">
+            <div className="bg-gray-50/50 rounded-[24px] p-4 border border-gray-100 space-y-2">
+              <span className="block text-[10px] font-mono font-bold text-[#4285F4] uppercase tracking-widest px-3 mb-2 text-left">
+                Program Modules
+              </span>
+              <div className="space-y-1">
+                {programsList.map((prog) => {
+                  const isSelected = prog.id === selectedProgId;
+                  return (
+                    <button
+                      key={prog.id}
+                      onClick={() => setSelectedProgId(prog.id)}
+                      className={`w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl text-left transition-all duration-200 cursor-pointer ${
+                        isSelected
+                          ? "bg-white text-gray-950 shadow-sm border border-gray-100 font-bold"
+                          : "text-gray-600 hover:text-gray-950 hover:bg-white/50 font-medium"
+                      }`}
+                    >
+                      <div className="flex-shrink-0">
+                        {getProgramIcon(prog.id, "h-5 w-5")}
+                      </div>
+                      <span className="text-[13px] sm:text-sm font-semibold truncate leading-none">
+                        {prog.title}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
 
-        </section>
+          {/* Right Main Content Panel with AnimatePresence */}
+          <div className="lg:col-span-9" id="programs-detail-panel">
+            <AnimatePresence mode="wait">
+              {renderSelectedProgramContent()}
+            </AnimatePresence>
+          </div>
+
+        </div>
 
         {/* ================= SECTION 4: ONE ECOSYSTEM. MULTIPLE PATHWAYS. ================= */}
         <section className="mt-24 border-t border-[#DADCE0] pt-16" id="ecosystem-pathways">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center bg-white p-8 md:p-12 border border-[#DADCE0] rounded-2xl">
-            <div className="md:col-span-4">
-              <span className="text-xs font-bold text-[#1A73E8] uppercase tracking-wider block mb-2">Unification</span>
+            <div className="md:col-span-4 text-left">
+              <span className="text-xs font-bold text-[#1A73E8] uppercase tracking-wider block mb-2 font-mono">Unification</span>
               <h3 className="font-display text-2xl md:text-3xl font-extrabold text-gray-900 leading-tight">
                 One Ecosystem. Multiple Pathways.
               </h3>
             </div>
-            <div className="md:col-span-8">
-              <p className="text-gray-600 leading-relaxed">
+            <div className="md:col-span-8 text-left">
+              <p className="text-gray-600 leading-relaxed font-light text-[15px]">
                 Every student enters research differently. Some begin with KREST. Some discover their interests through REFLECT. Others immerse themselves in KRIP or join a Research Circle. What connects them all is a shared commitment to inquiry, discovery, and continuous learning. No matter where you start, each pathway leads toward a deeper understanding of research and a greater capacity to contribute meaningfully.
               </p>
             </div>
@@ -348,7 +465,7 @@ export default function ProgramsPage({ onNavigate, selectedProgramId }: Programs
             <div className="flex flex-wrap justify-center gap-4">
               <button 
                 onClick={() => onNavigate('#/careers')}
-                className="bg-white hover:bg-slate-100 text-slate-950 font-bold px-6 py-3 rounded-xl shadow-sm text-sm tracking-wide transition-all duration-200 inline-flex items-center space-x-2"
+                className="bg-white hover:bg-slate-100 text-slate-950 font-bold px-6 py-3 rounded-xl shadow-sm text-sm tracking-wide transition-all duration-200 inline-flex items-center space-x-2 cursor-pointer h-[48px]"
               >
                 <span>Join KREST</span>
                 <ArrowRight className="h-4.5 w-4.5 text-slate-900" />
@@ -356,7 +473,7 @@ export default function ProgramsPage({ onNavigate, selectedProgramId }: Programs
 
               <button 
                 onClick={() => onNavigate('#/research-areas')}
-                className="bg-transparent hover:bg-white/10 border border-slate-500 hover:border-white text-white font-bold px-6 py-3 rounded-xl text-sm tracking-wide transition-all duration-200 inline-flex items-center space-x-2"
+                className="bg-transparent hover:bg-white/10 border border-slate-500 hover:border-white text-white font-bold px-6 py-3 rounded-xl text-sm tracking-wide transition-all duration-200 inline-flex items-center space-x-2 cursor-pointer h-[48px]"
               >
                 <span>Explore Research Circles</span>
                 <ArrowRight className="h-4.5 w-4.5 text-slate-300" />
@@ -364,7 +481,7 @@ export default function ProgramsPage({ onNavigate, selectedProgramId }: Programs
 
               <button 
                 onClick={() => onNavigate('#/careers')}
-                className="bg-slate-800 hover:bg-slate-750 border border-slate-700 text-slate-200 hover:text-white font-bold px-6 py-3 rounded-xl text-sm tracking-wide transition-all duration-200 inline-flex items-center space-x-2"
+                className="bg-slate-800 hover:bg-slate-750 border border-slate-700 text-slate-200 hover:text-white font-bold px-6 py-3 rounded-xl text-sm tracking-wide transition-all duration-200 inline-flex items-center space-x-2 cursor-pointer h-[48px]"
               >
                 <span>View Research Opportunities</span>
                 <ArrowRight className="h-4.5 w-4.5 text-slate-400" />
