@@ -1,6 +1,6 @@
 import React from 'react';
 import { RESEARCH_CIRCLES } from '../dataResearchCircles';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Sparkles, Sprout, ShieldAlert, Cpu, HeartPulse, TreePine, Zap, Navigation, GraduationCap, Compass } from 'lucide-react';
 
 interface ResearchAreasPageProps {
@@ -10,24 +10,26 @@ interface ResearchAreasPageProps {
 export default function ResearchAreasPage({ onNavigate }: ResearchAreasPageProps) {
   
   // Icon helper to correspond to each Research Circle
-  const getCircleIcon = (id: string) => {
+  const getCircleIcon = (id: string, sizeClass = "h-6 w-6") => {
     switch (id) {
       case 'environmental-science':
-        return <TreePine className="h-6 w-6 text-[#34A853]" />;
+        return <TreePine className={`${sizeClass} text-[#34A853]`} />;
       case 'bioscience':
-        return <HeartPulse className="h-6 w-6 text-[#EA4335]" />;
+        return <HeartPulse className={`${sizeClass} text-[#EA4335]`} />;
       case 'renewable-energy':
-        return <Zap className="h-6 w-6 text-[#FBBC05]" />;
+        return <Zap className={`${sizeClass} text-[#FBBC05]`} />;
       case 'automotive':
-        return <Navigation className="h-6 w-6 text-[#1A73E8]" />;
+        return <Navigation className={`${sizeClass} text-[#1A73E8]`} />;
       case 'educational':
-        return <Cpu className="h-6 w-6 text-[#9333EA]" />;
+        return <Cpu className={`${sizeClass} text-[#9333EA]`} />;
       case 'design-society':
-        return <Compass className="h-6 w-6 text-[#FF6D00]" />;
+        return <Compass className={`${sizeClass} text-[#FF6D00]`} />;
       default:
-        return <Cpu className="h-6 w-6 text-slate-500" />;
+        return <Cpu className={`${sizeClass} text-slate-500`} />;
     }
   };
+
+  const [selectedCircleId, setSelectedCircleId] = React.useState(RESEARCH_CIRCLES[0].id);
 
   const bannerImages: Record<string, string> = {
     "environmental-science": "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=600&auto=format&fit=crop",
@@ -97,86 +99,149 @@ export default function ResearchAreasPage({ onNavigate }: ResearchAreasPageProps
       </section>
 
       {/* ================= RESEARCH CIRCLES CATALOG ================= */}
-      <section className="mx-auto max-w-[1440px] px-6 lg:px-20 py-20" id="circles-catalog">
-        <div className="space-y-24">
-          {RESEARCH_CIRCLES.map((circle, index) => (
-            <div 
-              key={circle.id}
-              className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start border-b border-[#E5E7EB] pb-20 last:border-b-0 last:pb-0 text-left"
-              id={`circle-card-${circle.id}`}
-            >
-              
-              {/* Left visual column / Image collage & Category wrapper (cols 5) */}
-              <div className="lg:col-span-5 space-y-6">
-                <div className="h-[260px] w-full rounded-[24px] overflow-hidden border border-gray-100 shadow-sm relative group bg-gray-50 select-none">
-                  <img 
-                    src={bannerImages[circle.id]} 
-                    alt={circle.title} 
-                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-102"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
-                  
-                  {/* Absolute circle icon overlay */}
-                  <div className="absolute top-4 left-4 h-12 w-12 rounded-xl bg-white/95 backdrop-blur-md shadow-sm border border-white/20 flex items-center justify-center">
-                    {getCircleIcon(circle.id)}
-                  </div>
-                </div>
+      <section className="mx-auto max-w-[1440px] px-6 lg:px-20 py-16" id="circles-catalog">
+        
+        {/* Mobile Navigation Header Tabs - Horizontal Scrolling */}
+        <div className="lg:hidden mb-8 border-b border-gray-100 pb-4 overflow-x-auto scrollbar-none flex gap-2.5" id="circles-mobile-tabs">
+          {RESEARCH_CIRCLES.map((circle) => {
+            const isSelected = circle.id === selectedCircleId;
+            return (
+              <button
+                key={circle.id}
+                onClick={() => setSelectedCircleId(circle.id)}
+                className={`flex items-center space-x-2 px-4 py-2.5 rounded-full text-xs font-bold tracking-wide transition-all duration-200 shrink-0 border cursor-pointer ${
+                  isSelected
+                    ? "bg-gray-900 border-gray-900 text-white shadow-xs"
+                    : "bg-white border-gray-200 text-gray-600 hover:text-gray-950 hover:bg-gray-50"
+                }`}
+              >
+                {getCircleIcon(circle.id, "h-4 w-4")}
+                <span>{circle.title}</span>
+              </button>
+            );
+          })}
+        </div>
 
-                <div className="p-5 bg-gray-50 rounded-2xl border border-gray-100">
-                  <span className="block text-xs font-bold text-[#4285F4] uppercase tracking-wider mb-2 font-mono">Featured Research Papers & Prototypes</span>
-                  <ul className="space-y-2 text-sm text-gray-700 font-light leading-relaxed">
-                    {circle.featuredResearch.map((res, ridx) => (
-                      <li key={ridx} className="flex items-start space-x-2">
-                        <span className="text-[#34A853] font-bold select-none">•</span>
-                        <span>{res.title}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              {/* Right text column / Areas of Investigation (cols 7) */}
-              <div className="lg:col-span-7 space-y-6">
-                <div className="space-y-3">
-                  <h2 className="font-display text-[26px] sm:text-[34px] font-bold text-gray-900 tracking-tight leading-snug">
-                    {circle.title}
-                  </h2>
-                  <p className="text-[15px] font-medium text-[#34A853] block">
-                    {circle.tagline}
-                  </p>
-                  <p className="text-[15px] sm:text-[16px] text-gray-500 font-light leading-relaxed">
-                    {circle.description}
-                  </p>
-                </div>
-
-                {/* Areas of Investigation Bullet Points */}
-                <div className="space-y-3 pt-2">
-                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest font-mono">Areas of Investigation</p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5">
-                    {circle.areasOfInvestigation.map((item, idx) => (
-                      <div key={idx} className="flex items-center space-x-2.5">
-                        <span className="h-1.5 w-1.5 rounded-full bg-gray-500 shrink-0" />
-                        <span className="text-sm font-semibold text-gray-700">{item.title}</span>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          
+          {/* Left Sticky Sidebar on Desktop */}
+          <div className="hidden lg:block lg:col-span-3 sticky top-28 self-start space-y-4" id="circles-desktop-sidebar">
+            <div className="bg-gray-50/50 rounded-[24px] p-4 border border-gray-100 space-y-2">
+              <span className="block text-[10px] font-mono font-bold text-[#4285F4] uppercase tracking-widest px-3 mb-2">
+                Research Circles
+              </span>
+              <div className="space-y-1">
+                {RESEARCH_CIRCLES.map((circle) => {
+                  const isSelected = circle.id === selectedCircleId;
+                  return (
+                    <button
+                      key={circle.id}
+                      onClick={() => setSelectedCircleId(circle.id)}
+                      className={`w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl text-left transition-all duration-200 cursor-pointer ${
+                        isSelected
+                          ? "bg-white text-gray-950 shadow-sm border border-gray-100 font-bold"
+                          : "text-gray-600 hover:text-gray-950 hover:bg-white/50 font-medium"
+                      }`}
+                    >
+                      <div className="flex-shrink-0">
+                        {getCircleIcon(circle.id, "h-5 w-5")}
                       </div>
-                    ))}
+                      <span className="text-[13px] sm:text-sm font-semibold truncate leading-none">
+                        {circle.title}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Main Content Panel (Detail Area) with AnimatePresence for smooth transitions */}
+          <div className="lg:col-span-9" id="circles-detail-panel">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={selectedCircleId}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.25, ease: "easeInOut" }}
+                className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-14 items-start text-left"
+                id={`circle-card-${selectedCircleId}`}
+              >
+                
+                {/* Left visual columns (cols 5) inside detail */}
+                <div className="md:col-span-5 space-y-6">
+                  <div className="h-[260px] w-full rounded-[24px] overflow-hidden border border-gray-100 shadow-sm relative group bg-gray-50 select-none">
+                    <img 
+                      src={bannerImages[selectedCircleId]} 
+                      alt={RESEARCH_CIRCLES.find(c => c.id === selectedCircleId)?.title} 
+                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-102"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
+                    
+                    {/* Absolute circle icon overlay */}
+                    <div className="absolute top-4 left-4 h-12 w-12 rounded-xl bg-white/95 backdrop-blur-md shadow-sm border border-white/20 flex items-center justify-center">
+                      {getCircleIcon(selectedCircleId, "h-6 w-6")}
+                    </div>
+                  </div>
+
+                  <div className="p-5 bg-gray-50 rounded-2xl border border-gray-100">
+                    <span className="block text-xs font-bold text-[#4285F4] uppercase tracking-wider mb-2 font-mono">Featured Research Papers & Prototypes</span>
+                    <ul className="space-y-2 text-sm text-gray-700 font-light leading-relaxed">
+                      {RESEARCH_CIRCLES.find(c => c.id === selectedCircleId)?.featuredResearch.map((res, ridx) => (
+                        <li key={ridx} className="flex items-start space-x-2">
+                          <span className="text-[#34A853] font-bold select-none">•</span>
+                          <span>{res.title}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
 
-                {/* Explore Circle Action Click Button */}
-                <div className="pt-6">
-                  <button
-                    onClick={() => onNavigate(`#/research-circle/${circle.id}`)}
-                    className="inline-flex items-center space-x-2 bg-gray-900 hover:bg-black text-white px-6 py-3.5 rounded-full font-bold text-[14px] shadow-sm transition-all hover:scale-[1.01] cursor-pointer group"
-                  >
-                    <span>→ Explore Circle</span>
-                  </button>
+                {/* Right text column / Areas of Investigation (cols 7) inside detail */}
+                <div className="md:col-span-7 space-y-6">
+                  <div className="space-y-3">
+                    <h2 className="font-display text-[26px] sm:text-[34px] font-bold text-gray-900 tracking-tight leading-snug">
+                      {RESEARCH_CIRCLES.find(c => c.id === selectedCircleId)?.title}
+                    </h2>
+                    <p className="text-[15px] font-medium text-[#34A853] block">
+                      {RESEARCH_CIRCLES.find(c => c.id === selectedCircleId)?.tagline}
+                    </p>
+                    <p className="text-[15px] sm:text-[16px] text-gray-500 font-light leading-relaxed">
+                      {RESEARCH_CIRCLES.find(c => c.id === selectedCircleId)?.description}
+                    </p>
+                  </div>
+
+                  {/* Areas of Investigation Bullet Points */}
+                  <div className="space-y-3 pt-2">
+                    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest font-mono">Areas of Investigation</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5">
+                      {RESEARCH_CIRCLES.find(c => c.id === selectedCircleId)?.areasOfInvestigation.map((item, idx) => (
+                        <div key={idx} className="flex items-center space-x-2.5">
+                          <span className="h-1.5 w-1.5 rounded-full bg-gray-500 shrink-0" />
+                          <span className="text-sm font-semibold text-gray-700">{item.title}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Explore Circle Action Click Button */}
+                  <div className="pt-6">
+                    <button
+                      onClick={() => onNavigate(`#/research-circle/${selectedCircleId}`)}
+                      className="inline-flex items-center space-x-2 bg-gray-900 hover:bg-black text-white px-6 py-3.5 rounded-full font-bold text-[14px] shadow-sm transition-all hover:scale-[1.01] cursor-pointer group"
+                    >
+                      <span>→ Explore Circle</span>
+                    </button>
+                  </div>
+
                 </div>
 
-              </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
 
-            </div>
-          ))}
         </div>
       </section>
 
