@@ -169,24 +169,18 @@ export default function Header({ currentHash, onNavigate, onSearchOpen }: Header
                 )}
               </div>
 
-              {/* 2. Programs & Opportunities button (Trigger mega-menu on hover) */}
-              <div 
-                className="relative py-7"
-                onMouseEnter={() => handleMouseEnter('programs')}
+              {/* 2. Programs & Opportunities button */}
+              <button
+                onClick={() => handleNavClick('#/programs')}
+                className={`py-7 cursor-pointer hover:text-[#4285F4] transition-colors focus:outline-none relative ${
+                  isActive('#/programs') ? 'text-[#4285F4] font-semibold' : ''
+                }`}
               >
-                <button
-                  onClick={() => handleNavClick('#/programs')}
-                  className={`flex items-center space-x-1.5 py-1 cursor-pointer hover:text-[#4285F4] transition-colors focus:outline-none ${
-                    isActive('#/programs') ? 'text-[#4285F4] font-semibold' : ''
-                  }`}
-                >
-                  <span>Programs & Opportunities</span>
-                  <ChevronDown className="h-3.5 w-3.5 opacity-60" />
-                </button>
+                <span>Programs & Opportunities</span>
                 {isActive('#/programs') && (
                   <span className="absolute bottom-0 left-0 h-[3px] w-full bg-[#4285F4]" />
                 )}
-              </div>
+              </button>
 
 
 
@@ -415,123 +409,7 @@ export default function Header({ currentHash, onNavigate, onSearchOpen }: Header
         </div>
       )}
 
-      {/* 2. Programs & Opportunities Dropdown */}
-      {activeMenu === 'programs' && (
-        <div 
-          className="absolute left-0 w-full bg-white/95 backdrop-blur-lg border-b border-[#DADCE0] shadow-[0_15px_30px_rgba(0,0,0,0.06)] py-10 z-50 animate-fadeIn"
-          onMouseEnter={() => handleMouseEnter('programs')}
-          onMouseLeave={handleMouseLeave}
-        >
-          <div className="mx-auto max-w-[1440px] px-20">
-            <div className="grid grid-cols-12 gap-8">
-              
-              <div className="col-span-4 border-r border-[#DADCE0] pr-8 flex flex-col justify-between">
-                <div>
-                  <span className="text-[12px] font-bold text-[#5F6368] uppercase tracking-widest block mb-2">Development Blueprints</span>
-                  <h3 className="font-display text-[22px] font-extrabold text-[#202124] leading-tight mb-4">
-                    Fostering talent through structured funding.
-                  </h3>
-                  <p className="text-sm text-[#5F6368] leading-relaxed mb-6 font-light">
-                    RÉ administers multi-level student fellowships to mentor emerging scholars to high-impact realizations.
-                  </p>
-                </div>
-                <button 
-                  onClick={() => handleNavClick('#/programs')}
-                  className="inline-flex items-center space-x-1.5 text-sm font-semibold text-[#1A73E8] hover:underline"
-                >
-                  <span>See program timelines</span>
-                  <ArrowRight className="h-4 w-4" />
-                </button>
-              </div>
 
-              <div className="col-span-8 grid grid-cols-2 gap-x-8 gap-y-6 pl-4">
-                
-                {/* Cell 1: KREST */}
-                <div 
-                  onClick={() => handleNavClick('#/programs/krest')}
-                  className="p-4 rounded-xl hover:bg-gray-50/80 border border-transparent hover:border-gray-100 transition-all cursor-pointer flex items-start space-x-4 group"
-                >
-                  <div className="p-3 bg-[#34A853]/10 text-[#34A853] rounded-lg group-hover:scale-105 transition-transform">
-                    <Award className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900 group-hover:text-[#34A853] text-sm mb-1 transition-colors">KREST foundation</h4>
-                    <p className="text-xs text-gray-500 leading-relaxed font-light">
-                      The foundation of research capability. Introduces systematic inquiry methods, analysis & documentation.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Cell 2: REFLECT */}
-                <div 
-                  onClick={() => handleNavClick('#/programs/reflect')}
-                  className="p-4 rounded-xl hover:bg-gray-50/80 border border-transparent hover:border-gray-100 transition-all cursor-pointer flex items-start space-x-4 group"
-                >
-                  <div className="p-3 bg-[#FBBC05]/10 text-[#FBBC05] rounded-lg group-hover:scale-105 transition-transform">
-                    <Sparkles className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900 group-hover:text-[#FBBC05] text-sm mb-1 transition-colors">REFLECT program</h4>
-                    <p className="text-xs text-gray-500 leading-relaxed font-light">
-                      Learning through active inquiry. Structured reflection, critical-thinking, and research documentation.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Cell 3: KRIP */}
-                <div 
-                  onClick={() => handleNavClick('#/programs/krip')}
-                  className="p-4 rounded-xl hover:bg-gray-50/80 border border-transparent hover:border-gray-100 transition-all cursor-pointer flex items-start space-x-4 group"
-                >
-                  <div className="p-3 bg-[#4285F4]/10 text-[#4285F4] rounded-lg group-hover:scale-105 transition-transform">
-                    <GraduationCap className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900 group-hover:text-[#4285F4] text-sm mb-1 transition-colors">KRIP Internship</h4>
-                    <p className="text-xs text-gray-500 leading-relaxed font-light">
-                      Kumaraguru Research Internship Programme. Work alongside core mentors with research stipends.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Cell 4: Research Circles */}
-                <div 
-                  onClick={() => handleNavClick('#/programs/circles')}
-                  className="p-4 rounded-xl hover:bg-gray-50/80 border border-transparent hover:border-gray-100 transition-all cursor-pointer flex items-start space-x-4 group"
-                >
-                  <div className="p-3 bg-[#EA4335]/10 text-[#EA4335] rounded-lg group-hover:scale-105 transition-transform">
-                    <Users className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900 group-hover:text-[#EA4335] text-sm mb-1 transition-colors">Research Circles</h4>
-                    <p className="text-xs text-gray-500 leading-relaxed font-light">
-                      Long-term communities built around central questions and shared domains of exploration.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Cell 5: UROP */}
-                <div 
-                  onClick={() => handleNavClick('#/programs/urop')}
-                  className="p-4 rounded-xl hover:bg-gray-50/80 border border-transparent hover:border-gray-100 transition-all cursor-pointer flex items-start space-x-4 group col-span-2 max-w-lg mx-auto"
-                >
-                  <div className="p-3 bg-[#1C2E4A]/10 text-[#1C2E4A] rounded-lg group-hover:scale-105 transition-transform">
-                    <BookOpen className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900 group-hover:text-[#1C2E4A] text-sm mb-1 transition-colors">UROP Assistantships</h4>
-                    <p className="text-xs text-gray-500 leading-relaxed font-light">
-                      Undergraduate Research opportunities Program. Learn directly alongside experienced faculty researchers.
-                    </p>
-                  </div>
-                </div>
-
-              </div>
-
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* 3. About Dropdown */}
       {activeMenu === 'about' && (
